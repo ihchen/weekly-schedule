@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http=equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="ihc-schedule.css" />
+    <style>
+      body > div {
+        /*width: 500px;*/
+      }
+    </style>
+  </head>
+  <body>
+    <div><div id="scheduleHere"></div></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="ihc-schedule.js"></script>
+    <script src="node_modules/css-element-queries/src/ResizeSensor.js"></script>
+    <script src="node_modules/hammerjs/hammer.min.js"></script>
+    <script>
+      var s = new IHCSchedule('scheduleHere', {
+        startTime: 9,
+        endTime: 22,
+        editable: true,
+        colors: {
+          open: '#C7FBCE',
+          closed: '#BABABA',
+          neutral: '#FFFFFF'
+        },
+        onSave: function(valueState, colorState) {
+          console.log(valueState, colorState);
+        }
+      });
+      s.loadState([
+        [,,'',"hi"],
+        ["hello",],
+        [,,"konichwa"]
+      ], [
+        [,,'open'],
+        ['closed'],
+        [,,,,'open']
+      ]);
+    </script>
+  </body>
+</html>

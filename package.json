@@ -1,0 +1,24 @@
+{
+  "name": "ihc-schedule",
+  "version": "1.0.0",
+  "description": "Weekly Schedule for injection into HTML using JavaScript.",
+  "main": "ihc-schedule.js",
+  "scripts": {
+    "test": "karma start karma.conf.js"
+  },
+  "author": "Imanuel Chen",
+  "license": "ISC",
+  "devDependencies": {
+    "jasmine-core": "^2.6.2",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jquery": "^0.2.0",
+    "karma-requirejs": "^1.1.0"
+  },
+  "dependencies": {
+    "css-element-queries": "^0.4.0",
+    "hammerjs": "^2.0.8"
+  }
+}
