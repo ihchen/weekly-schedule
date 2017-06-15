@@ -19,9 +19,6 @@ function IHCSchedule(elemID, options) {
     editable: false,
     colors: {},
     onSave: function(valueState, colorState) {},
-    onEntryClick: function() {
-
-    }
   };
   const DAYS = [
     'Monday',
@@ -38,35 +35,40 @@ function IHCSchedule(elemID, options) {
   var element = $("#"+elemID);
   var currOffset = 0;  // The leftmost day column (0 for Monday, 6 for Sunday);
   var currWidth;      // Current width of each column as percentage
-  var numCols;
+  var numRows = (options.endTime - options.startTime + 1) * options.subDivisions;
+  var numCols;        // Number of columns that can currently be displayed
   var poppedMenu = false;
   var valueState = [];
   var colorState = [];
   var editted = false;
 
 
-  initialization((options.endTime - options.startTime + 1) * options.subDivisions);
+  initialization(numRows);
 
 
-  this.loadState = function(newValueState, newColorState=[[]]) {
+  this.loadState = function(newValueState, newColorState) {
     var currValueEntry, currColorEntry;
 
-    for(var i = 0; i < newValueState.length; i++) {
-      for(var j = 0; j < newValueState[i].length; j++) {
-        currValueEntry = newValueState[i][j];
-        if(currValueEntry) {
-          $("#"+i+"-"+j).html(currValueEntry);
-          valueState[i][j] = currValueEntry;
+    for(var i = 0; i < numRows; i++) {
+      for(var j = 0; j < DAYS.length; j++) {
+        if(newValueState) {
+          currValueEntry = newValueState[i][j];
+          if(currValueEntry) {
+            $("#"+i+"-"+j).html(currValueEntry);
+            valueState[i][j] = currValueEntry;
+          }
+          else if(valueState[i][j])
+            valueState[i][j] = undefined;
         }
-      }
-    }
 
-    for(var i = 0; i < newColorState.length; i++) {
-      for(var j = 0; j < newColorState[i].length; j++) {
-        currColorEntry = newColorState[i][j];
-        if(currColorEntry) {
-          $("#"+i+"-"+j).css('background-color', options.colors[currColorEntry]);
-          colorState[i][j] = currColorEntry;
+        if(newColorState) {
+          currColorEntry = newColorState[i][j];
+          if(currColorEntry) {
+            $("#"+i+"-"+j).css('background-color', options.colors[currColorEntry]);
+            colorState[i][j] = currColorEntry;
+          }
+          else if(colorState[i][j])
+            colorState[i][j] == undefined
         }
       }
     }
