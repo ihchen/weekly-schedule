@@ -45,6 +45,11 @@ Must be a factor of 60. Default is 1.
 
 ---
 
+#### `minColWidth` option
+Minimum allowed width of each column in pixels. Default is 115.
+
+---
+
 #### `editable` option
 Whether or not users can edit the schedule. Setting true means users can click on an entry and edit the textual value and
 background color of the entry. Default is false.
