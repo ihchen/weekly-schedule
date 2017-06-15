@@ -87,7 +87,7 @@ Undefined entries in each state array simply represents an empty value.
 ---
 
 ## Methods
-*loadState(valueState, colorState)*
+**loadState(valueState, colorState)**
 
 Replaces the current value and color states of the schedule with the given ones. Parameters must have at least the number
 of rows in the schedule. Undefined can be used in either parameter if not desired to use.
@@ -112,3 +112,13 @@ ihc.loadState([
   [,'color1']
 ]);
 ```
+
+## Optional Dependencies
+#### `ResizeSensor`
+Including [ResizeSensor](https://github.com/marcj/css-element-queries/blob/master/src/ResizeSensor.js) by marcj will allow
+the schedule to resize when the parent resizes. If this plugin is not included, then the schedule will only resize when
+the window resizes. Be sure to include the script before you initialize your schedules.
+
+#### `Hammer`
+Including [Hammer](http://hammerjs.github.io/) will allow for swipe functionality making the schedule more mobile friendly.
+Remember to include the script before you intialize your schedules.
