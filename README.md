@@ -1,5 +1,5 @@
 # IHC Weekly Schedule
-Responsive JavaScript UI Component for displaying and editting a weekly schedule.
+Responsive jQuery UI Component for displaying and editting a weekly schedule.
 
 Demo: 
 
@@ -117,6 +117,9 @@ ihc.loadState([
   [,'color1']
 ]);
 ```
+
+## Dependencies
+#### `jQuery`
 
 ## Optional Dependencies
 #### `ResizeSensor`
