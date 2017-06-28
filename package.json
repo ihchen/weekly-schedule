@@ -4,18 +4,22 @@
   "description": "Weekly Schedule for injection into HTML using JavaScript.",
   "main": "ihc-schedule.js",
   "scripts": {
-    "test": "karma start karma.conf.js"
+    "test": "karma start karma.conf.js",
+    "build": "babel ihc-schedule.js -d dist && minify dist/ihc-schedule.js && minify --output dist/ihc-schedule.min.css ihc-schedule.css"
   },
   "author": "Imanuel Chen",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
     "jasmine-core": "^2.6.2",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.1",
     "karma-firefox-launcher": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jquery": "^0.2.0",
-    "karma-requirejs": "^1.1.0"
+    "karma-requirejs": "^1.1.0",
+    "minifier": "^0.8.1"
   },
   "dependencies": {
     "css-element-queries": "^0.4.0",
