@@ -32,31 +32,46 @@ function IHCSchedule(elemID, options) {
   var numRows = (options.endTime - options.startTime + 1) * options.subDivisions;
   var numCols; // Number of columns that can currently be displayed
   var poppedMenu = false;
-  var valueState = [];
-  var colorState = [];
+  var valueState = {};
+  var colorState = {};
   var editted = false;
 
   initialization(numRows);
 
   this.loadState = function (newValueState, newColorState) {
-    var currValueEntry, currColorEntry;
+    valueState = newValueState;
+    colorState = newColorState;
 
-    for (var i = 0; i < numRows; i++) {
-      for (var j = 0; j < DAYS.length; j++) {
-        if (newValueState) {
-          currValueEntry = newValueState[i][j];
-          if (currValueEntry) {
-            $("#" + i + "-" + j).html(currValueEntry);
-            valueState[i][j] = currValueEntry;
-          } else if (valueState[i][j]) valueState[i][j] = undefined;
+    for (var key in newValueState) {
+      if (newValueState.hasOwnProperty(key)) {
+        var vals = newValueState[key];
+
+        for (var i = 0; i < vals.length; i++) {
+          if (vals[i]) {
+            var id = key + "-" + i;
+            var entry = $("#" + id);
+
+            if (entry.length) {
+              entry.html(vals[i]);
+            }
+          }
         }
+      }
+    }
 
-        if (newColorState) {
-          currColorEntry = newColorState[i][j];
-          if (currColorEntry) {
-            $("#" + i + "-" + j).css('background-color', options.colors[currColorEntry]);
-            colorState[i][j] = currColorEntry;
-          } else if (colorState[i][j]) colorState[i][j] == undefined;
+    for (var key in newColorState) {
+      if (newColorState.hasOwnProperty(key)) {
+        var cols = newColorState[key];
+
+        for (var i = 0; i < cols.length; i++) {
+          if (cols[i]) {
+            var id = key + "-" + i;
+            var entry = $("#" + id);
+
+            if (entry.length) {
+              entry.css('background-color', options.colors[cols[i]]);
+            }
+          }
         }
       }
     }
@@ -138,9 +153,9 @@ function IHCSchedule(elemID, options) {
   }
 
   // Only use on .entry.value elements
-  function getRowCol(entry) {
+  function getTimeAndCol(entry) {
     var id = entry.attr('id');
-    return [parseInt(id[0], 10), parseInt(id[2], 10)];
+    return id.split("-");
   }
 
   function changeTagName(elem, tag) {
@@ -155,16 +170,21 @@ function IHCSchedule(elemID, options) {
 
   function initialization(numRows) {
     (function initHTML() {
+      var times = [];
+
       // Create HTML
       var timeColumn = '\n        <div class="column time-column">\n          <div class="cell corner"></div>' + function () {
         var timeEntries = '';
         var hr; // Will actually be hr - 1 to account for modding by 12
         var min;
+        var time;
 
         for (var i = 0; i < numRows; i++) {
           hr = Math.floor(i / options.subDivisions) + (options.startTime - 1);
           min = ('0' + 60 / options.subDivisions * (i % options.subDivisions)).slice(-2);
-          timeEntries += '<div class="cell time">' + (hr % 12 + 1) + ':' + min + ' ' + (hr >= 11 && hr <= 22 ? 'PM' : 'AM') + '</div>';
+          time = hr % 12 + 1 + ':' + min + ' ' + (hr >= 11 && hr <= 22 ? 'PM' : 'AM');
+          times.push(time);
+          timeEntries += '<div class="cell time">' + time + '</div>';
         }
 
         return timeEntries;
@@ -178,7 +198,7 @@ function IHCSchedule(elemID, options) {
             var dayEntries = '<div class="cell day">' + DAYS[i] + '</div>';
 
             for (var j = 0; j < numRows; j++) {
-              dayEntries += '<div id="' + j + '-' + i + '" class="cell entry"></div>';
+              dayEntries += '<div id="' + times[j].replace(" ", "").replace(":", "_") + '-' + i + '" class="cell entry"></div>';
             }
 
             return dayEntries;
@@ -193,12 +213,6 @@ function IHCSchedule(elemID, options) {
       element.addClass("ihc-schedule");
       element.html(timeColumn + dayColumns + directionalButtons);
     })();
-
-    // Set up states
-    for (var i = 0; i < numRows; i++) {
-      valueState.push([]);
-      colorState.push([]);
-    }
 
     // Resize and set event listeners
     resizeSchedule();
@@ -265,9 +279,12 @@ function IHCSchedule(elemID, options) {
             editted = true;
           }
         } else {
-          var rc = getRowCol(elem);
+          var rc = getTimeAndCol(elem);
           var color = $(this).attr('class');
 
+          if (!colorState.hasOwnProperty(rc[0])) {
+            colorState[rc[0]] = [];
+          }
           colorState[rc[0]][rc[1]] = color;
           elem.css('background-color', options.colors[color]);
         }
@@ -280,8 +297,11 @@ function IHCSchedule(elemID, options) {
 
         element.find('textarea').each(function () {
           id = $(this).attr('id');
-          rc = getRowCol($(this));
+          rc = getTimeAndCol($(this));
 
+          if (!valueState.hasOwnProperty(rc[0])) {
+            valueState[rc[0]] = [];
+          }
           valueState[rc[0]][rc[1]] = $(this).val();
           changeTagName($(this), 'div');
         });
