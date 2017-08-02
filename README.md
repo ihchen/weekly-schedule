@@ -84,18 +84,17 @@ IHCSchedule('scheduleHere', {
 });
 ```
 Parameters:
-* valueState - 2d array containing each textual entry of the schedule
-* colorState - 2d array containing each color name of the schedule
+* valueState - Object containing each textual entry of the schedule
+* colorState - Object containing each color name of the schedule
 
-Undefined entries in each state array simply represents an empty value.
+Undefined entries in each state object simply represents an empty value.
 
 ---
 
 ## Methods
 **loadState(valueState, colorState)**
 
-Replaces the current value and color states of the schedule with the given ones. Parameters must have at least the number
-of rows in the schedule. Undefined can be used in either parameter if not desired to use.
+Replaces the current value and color states of the schedule with the given ones. Undefined can be used in either parameter if not desired to use.
 
 Example:
 ```javascript
@@ -107,15 +106,15 @@ var ihc = new IHCSchedule("scheduleHere", {
     color2: 'white'
   }
 });
-ihc.loadState([
-  ["test1"],
-  [,"test2"],
-  [,,"test3"]
-], [
-  [,,,,'color1'],
-  [,,'color2'],
-  [,'color1']
-]);
+ihc.loadState({
+  "*_00AM": ["test1"],
+  "9_00AM": [,"test2"],
+  "10_))AM": [,,"test3"]
+}, {
+  "8_00AM": [,,,,'color1'],
+  "9_00AM": [,,'color2'],
+  "10_00AM": [,'color1']
+});
 ```
 
 ## Dependencies
