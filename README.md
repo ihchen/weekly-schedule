@@ -107,7 +107,7 @@ var ihc = new IHCSchedule("scheduleHere", {
   }
 });
 ihc.loadState({
-  "*_00AM": ["test1"],
+  "8_00AM": ["test1"],
   "9_00AM": [,"test2"],
   "10_))AM": [,,"test3"]
 }, {
