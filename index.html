@@ -71,11 +71,19 @@
       console.log(colorState);
     }
   });
-  s.loadState([
-    ["1"],[,"2"],[,,"3"],[,,,"4"],[,,,,"5"],[],[],[],[],[]
-  ], [
-    [,"open"],[,,"closed"],[,,,"neutral"],[,,,,"open"],[,,,,,"closed"],[],[],[],[],[]
-  ]);
+  s.loadState({
+    "8_00AM": ["1"],
+    "8_30AM": [,"2"],
+    "9_00AM": [,,"3"],
+    "9_30AM": [,,,"4"],
+    "10_00AM": [,,,,"5"]
+  }, {
+    "8_00AM": [,"open"],
+    "8_30AM": [,,"closed"],
+    "9_00AM": [,,,"neutral"],
+    "9_30AM": [,,,,"open"],
+    "10_00AM": [,,,,,"closed"]
+  });
   &lt;/script>
             </code>
           </pre>
@@ -84,7 +92,8 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="dist/ihc-schedule.min.js"></script>
+    <!-- <script src="dist/ihc-schedule.min.js"></script> -->
+    <script src="ihc-schedule.js"></script>
     <script src="node_modules/css-element-queries/src/ResizeSensor.js"></script>
     <script src="node_modules/hammerjs/hammer.min.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
@@ -106,11 +115,19 @@
           console.log(colorState);
         }
       });
-      s.loadState([
-        ["1"],[,"2"],[,,"3"],[,,,"4"],[,,,,"5"],[],[],[],[],[]
-      ], [
-        [,"open"],[,,"closed"],[,,,"neutral"],[,,,,"open"],[,,,,,"closed"],[],[],[],[],[]
-      ]);
+      s.loadState({
+        "8_00AM": ["1"],
+        "8_30AM": [,"2"],
+        "9_00AM": [,,"3"],
+        "9_30AM": [,,,"4"],
+        "10_00AM": [,,,,"5"]
+      }, {
+        "8_00AM": [,"open"],
+        "8_30AM": [,,"closed"],
+        "9_00AM": [,,,"neutral"],
+        "9_30AM": [,,,,"open"],
+        "10_00AM": [,,,,,"closed"]
+      });
     </script>
   </body>
 </html>

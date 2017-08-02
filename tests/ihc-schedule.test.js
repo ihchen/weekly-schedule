@@ -156,26 +156,4 @@ describe("IHCSchedule", function() {
       expect($('.right-btn').css('display')).toBe('none');
     });
   });
-
-  describe('state manipulation', function() {
-
-    var state, sched;
-
-    beforeEach(function() {
-      state = [
-        [,,3],
-        [,2,,7],
-        [,,,,,5],
-        [1]
-      ];
-      sched = new IHCSchedule('ihc-schedule');
-      sched.loadState(state);
-    });
-
-    it('should load state properly', function() {
-      expect($("#0-2").html()).toBe("3");
-      expect($("#2-5").html()).toBe("5");
-      expect($("#3-0").html()).toBe("1");
-    });
-  })
 });
