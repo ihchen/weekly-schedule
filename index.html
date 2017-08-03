@@ -55,6 +55,7 @@
 
   &lt;script>
   var s = new IHCSchedule('scheduleHere', {
+    startDay: 'Sunday',
     startTime: 8,
     endTime: 12,
     subDivisions: 2,
@@ -92,13 +93,14 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <!-- <script src="dist/ihc-schedule.min.js"></script> -->
+    <!-- <script src="ihc-schedule.js"></script> -->
     <script src="dist/ihc-schedule.min.js"></script>
     <script src="node_modules/css-element-queries/src/ResizeSensor.js"></script>
     <script src="node_modules/hammerjs/hammer.min.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <script>
       var s = new IHCSchedule('scheduleHere', {
+        startDay: 'Sunday',
         startTime: 8,
         endTime: 12,
         subDivisions: 2,

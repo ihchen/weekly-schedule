@@ -14,6 +14,7 @@
  */
 function IHCSchedule(elemID, options) {
   var DEFAULT_OPTIONS = {
+    startDay: 'Monday',
     startTime: 8,
     endTime: 18,
     subDivisions: 1,
@@ -22,11 +23,12 @@ function IHCSchedule(elemID, options) {
     colors: {},
     onSave: function onSave(valueState, colorState) {}
   };
-  var DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  var DAY_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   var POPUP_WIDTH = 112;
 
   var options = $.extend({}, DEFAULT_OPTIONS, options);
   var element = $("#" + elemID);
+  var days;
   var currOffset = 0; // The leftmost day column (0 for Monday, 6 for Sunday);
   var currWidth; // Current width of each column as percentage
   var numRows = (options.endTime - options.startTime + 1) * options.subDivisions;
@@ -82,7 +84,7 @@ function IHCSchedule(elemID, options) {
     numCols = Math.floor(scheduleWidth / options.minColWidth);
 
     // If parent of schedule can't fit full schedule
-    if (numCols <= DAYS.length) {
+    if (numCols <= days.length) {
       currWidth = 100 / numCols;
       element.find('.column').css('min-width', currWidth + "%");
       element.find('.column').css('max-width', currWidth + "%");
@@ -91,9 +93,9 @@ function IHCSchedule(elemID, options) {
 
       changeOffset(currOffset);
     } else {
-      numCols = DAYS.length + 1;
-      element.find('.column').css('min-width', 100 / (DAYS.length + 1) + "%");
-      element.find('.column').css('max-width', 100 / (DAYS.length + 1) + "%");
+      numCols = days.length + 1;
+      element.find('.column').css('min-width', 100 / (days.length + 1) + "%");
+      element.find('.column').css('max-width', 100 / (days.length + 1) + "%");
       element.find('.dir-btn').removeAttr('style');
       // reset offset
       currOffset = 0;
@@ -102,7 +104,7 @@ function IHCSchedule(elemID, options) {
   }
 
   function changeOffset(offset) {
-    var maxOffset = DAYS.length - numCols + 1;
+    var maxOffset = days.length - numCols + 1;
     var leftBtn = element.find('.left-btn');
     var rightBtn = element.find('.right-btn');
 
@@ -169,6 +171,9 @@ function IHCSchedule(elemID, options) {
   }
 
   function initialization(numRows) {
+    var indexOfStartDay = DAY_ORDER.indexOf(options.startDay);
+    days = DAY_ORDER.slice(indexOfStartDay).concat(DAY_ORDER.slice(0, indexOfStartDay));
+
     (function initHTML() {
       var times = [];
 
@@ -193,9 +198,9 @@ function IHCSchedule(elemID, options) {
       var dayColumns = '\n        <div class="day-columns">' + function () {
         var columns = '';
 
-        for (var i = 0; i < DAYS.length; i++) {
+        for (var i = 0; i < days.length; i++) {
           columns += '<div class="column">' + function () {
-            var dayEntries = '<div class="cell day">' + DAYS[i] + '</div>';
+            var dayEntries = '<div class="cell day">' + days[i] + '</div>';
 
             for (var j = 0; j < numRows; j++) {
               dayEntries += '<div id="' + times[j].replace(" ", "").replace(":", "_") + '-' + i + '" class="cell entry"></div>';
