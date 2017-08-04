@@ -66,24 +66,51 @@
       closed: 'rgb(186, 186, 186)',
       neutral: 'white'
     },
-    onSave: function(valueState, colorState) {
+    onSave: function(state) {
       alert('Successfully Saved');
-      console.log(valueState);
-      console.log(colorState);
+      console.log(state);
     }
   });
   s.loadState({
-    "8_00AM": ["1"],
-    "8_30AM": [,"2"],
-    "9_00AM": [,,"3"],
-    "9_30AM": [,,,"4"],
-    "10_00AM": [,,,,"5"]
-  }, {
-    "8_00AM": [,"open"],
-    "8_30AM": [,,"closed"],
-    "9_00AM": [,,,"neutral"],
-    "9_30AM": [,,,,"open"],
-    "10_00AM": [,,,,,"closed"]
+    'Sunday': {
+      '8_00AM': {
+        'value': '1'
+      }
+    },
+    'Monday': {
+      '8_00AM': {
+        'color': 'open'
+      },
+      '8_30AM': {
+        'value': '2'
+      }
+    },
+    'Tuesday': {
+      '8_30AM': {
+        'color': 'closed'
+      },
+      '9_00AM': {
+        'value': '3'
+      }
+    },
+    'Wednesday': {
+      '9_30AM': {
+        'color': 'open',
+        'value': '4'
+      }
+    },
+    'Thursday': {
+      '10_00AM': {
+        'color': 'closed',
+        'value': '5'
+      }
+    },
+    'Friday': {
+      '12_00PM': {
+        'color': 'neutral',
+        'value': '6'
+      },
+    }
   });
   &lt;/script>
             </code>
@@ -111,24 +138,51 @@
           closed: 'rgb(186, 186, 186)',
           neutral: 'white'
         },
-        onSave: function(valueState, colorState) {
+        onSave: function(state) {
           alert('Successfully Saved');
-          console.log(valueState);
-          console.log(colorState);
+          console.log(state);
         }
       });
       s.loadState({
-        "8_00AM": ["1"],
-        "8_30AM": [,"2"],
-        "9_00AM": [,,"3"],
-        "9_30AM": [,,,"4"],
-        "10_00AM": [,,,,"5"]
-      }, {
-        "8_00AM": [,"open"],
-        "8_30AM": [,,"closed"],
-        "9_00AM": [,,,"neutral"],
-        "9_30AM": [,,,,"open"],
-        "10_00AM": [,,,,,"closed"]
+        'Sunday': {
+          '8_00AM': {
+            'value': '1'
+          }
+        },
+        'Monday': {
+          '8_00AM': {
+            'color': 'open'
+          },
+          '8_30AM': {
+            'value': '2'
+          }
+        },
+        'Tuesday': {
+          '8_30AM': {
+            'color': 'closed'
+          },
+          '9_00AM': {
+            'value': '3'
+          }
+        },
+        'Wednesday': {
+          '9_30AM': {
+            'color': 'open',
+            'value': '4'
+          }
+        },
+        'Thursday': {
+          '10_00AM': {
+            'color': 'closed',
+            'value': '5'
+          }
+        },
+        'Friday': {
+          '12_00PM': {
+            'color': 'neutral',
+            'value': '6'
+          },
+        }
       });
     </script>
   </body>

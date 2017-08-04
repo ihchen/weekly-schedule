@@ -19,7 +19,7 @@ function IHCSchedule(elemID, options) {
     minColWidth: 115,
     editable: false,
     colors: {},
-    onSave: function(valueState, colorState) {},
+    onSave: function(state) {},
   };
   const DAY_ORDER = [
     'Monday',
@@ -40,46 +40,31 @@ function IHCSchedule(elemID, options) {
   var numRows = (options.endTime - options.startTime + 1) * options.subDivisions;
   var numCols;        // Number of columns that can currently be displayed
   var poppedMenu = false;
-  var valueState = {};
-  var colorState = {};
+  var state = {};
   var editted = false;
 
 
   initialization(numRows);
 
 
-  this.loadState = function(newValueState, newColorState) {
-    valueState = newValueState;
-    colorState = newColorState;
+  this.loadState = function(newState) {
+    state = newState;
+    var id, entry;
 
-    for ( var key in newValueState ) {
-      if ( newValueState.hasOwnProperty(key) ) {
-        var vals = newValueState[key];
-
-        for ( var i = 0; i < vals.length; i++ ) {
-          if ( vals[i] ) {
-            var id = key + "-" + i;
-            var entry = $("#"+id);
+    for ( var day in state ) {
+      if ( state.hasOwnProperty(day) ) {
+        for ( var time in state[day] ) {
+          if ( state[day].hasOwnProperty(time) ) {
+            id = day + "-" + time;
+            entry = $("#" + id);
 
             if ( entry.length ) {
-              entry.html(vals[i]);
-            }
-          }
-        }
-      }
-    }
-
-    for ( var key in newColorState ) {
-      if ( newColorState.hasOwnProperty(key) ) {
-        var cols = newColorState[key];
-
-        for ( var i = 0; i < cols.length; i++ ) {
-          if ( cols[i] ) {
-            var id = key + "-" + i;
-            var entry = $("#"+id);
-
-            if ( entry.length ) {
-              entry.css('background-color', options.colors[cols[i]]);
+              if ( state[day][time].hasOwnProperty('value') ) {
+                entry.html(state[day][time]['value']);
+              }
+              if ( state[day][time].hasOwnProperty('color') ) {
+                entry.css('background-color', options.colors[state[day][time]['color']]);
+              }
             }
           }
         }
@@ -179,7 +164,7 @@ function IHCSchedule(elemID, options) {
   }
 
   // Only use on .entry.value elements
-  function getTimeAndCol(entry) {
+  function getTimeAndDay(entry) {
     var id = entry.attr('id');
     return id.split("-");
   }
@@ -239,7 +224,7 @@ function IHCSchedule(elemID, options) {
                   var dayEntries = `<div class="cell day">` + days[i] + `</div>`;
 
                   for(var j = 0; j < numRows; j++) {
-                    dayEntries += `<div id="` + times[j].replace(" ", "").replace(":", "_") + `-` + i + `" class="cell entry"></div>`;
+                    dayEntries += `<div id="` + days[i] + "-" + times[j].replace(" ", "").replace(":", "_") + `" class="cell entry"></div>`;
                   }
 
                   return dayEntries;
@@ -332,13 +317,18 @@ function IHCSchedule(elemID, options) {
           }
         }
         else {
-          var rc = getTimeAndCol(elem);
+          var rc = getTimeAndDay(elem);
+          var day = rc[0];
+          var time = rc[1];
           var color = $(this).attr('class');
 
-          if ( !colorState.hasOwnProperty(rc[0]) ) {
-            colorState[rc[0]] = [];
+          if ( !state.hasOwnProperty(day) ) {
+            state[day] = {};
           }
-          colorState[rc[0]][rc[1]] = color;
+          if ( !state[day].hasOwnProperty(time) ) {
+            state[day][time] = {};
+          }
+          state[day][time]['color'] = color;
           elem.css('background-color', options.colors[color]);
         }
 
@@ -346,23 +336,28 @@ function IHCSchedule(elemID, options) {
       });
 
       element.on('click', '.save-btn', function() {
-        var id, rc;
+        var id, rc, day, time;
 
         element.find('textarea').each(function() {
           id = $(this).attr('id');
-          rc = getTimeAndCol($(this));
+          rc = getTimeAndDay($(this));
+          day = rc[0];
+          time = rc[1];
 
-          if ( !valueState.hasOwnProperty(rc[0]) ) {
-            valueState[rc[0]] = [];
+          if ( !state.hasOwnProperty(day) ) {
+            state[day] = {};
           }
-          valueState[rc[0]][rc[1]] = $(this).val();
+          if ( !state[day].hasOwnProperty(time) ) {
+            state[day][time] = {};
+          }
+          state[day][time]['value'] = $(this).val();
           changeTagName($(this), 'div');
         });
 
         element.find('.save-btn').remove();
         editted = false;
 
-        options.onSave(valueState, colorState);
+        options.onSave(state);
       });
     }
   }
