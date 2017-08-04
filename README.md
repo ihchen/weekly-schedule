@@ -14,6 +14,7 @@ IHCSchedule("scheduleHere");
 ## Options
 ```javascript
 var schedule = new IHCSchedule("scheduleHere", {
+  startDay: 'Monday', // Valid day name
   startTime: 8,   // First time row (8 stands for 8:00 AM)
   endTime: 18,    // Last time row (18 stands for 6:00 PM)
   subDivision: 1, // Divisions between each hour
@@ -25,6 +26,11 @@ var schedule = new IHCSchedule("scheduleHere", {
   }
 });
 ```
+
+---
+
+#### `startDay` option
+First day column to be shown. Must be a valid day (i.e. 'Sunday'). Default is 'Monday'.
 
 ---
 
