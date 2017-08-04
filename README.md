@@ -84,23 +84,20 @@ A function that runs after the save button is clicked. Save button only shows if
 Does nothing by default. Example:
 ```javascript
 IHCSchedule('scheduleHere', {
-  onSave: function(valueState, colorState) {
-    console.log(valueState, colorState);
+  onSave: function(state) {
+    console.log(state);
   }
 });
 ```
 Parameters:
-* valueState - Object containing each textual entry of the schedule
-* colorState - Object containing each color name of the schedule
-
-Undefined entries in each state object simply represents an empty value.
+* state - Object containing information in schedule
 
 ---
 
 ## Methods
-**loadState(valueState, colorState)**
+**loadState(newState)**
 
-Replaces the current value and color states of the schedule with the given ones. Undefined can be used in either parameter if not desired to use.
+Loads the given state into the schedule. Will not clear the schedule if it has been editted beforehand; therefore, recommended to be used on an empty schedule. If day and time given by the new state is not in the schedule, values will be ignored.
 
 Example:
 ```javascript
@@ -113,13 +110,16 @@ var ihc = new IHCSchedule("scheduleHere", {
   }
 });
 ihc.loadState({
-  "8_00AM": ["test1"],
-  "9_00AM": [,"test2"],
-  "10_))AM": [,,"test3"]
-}, {
-  "8_00AM": [,,,,'color1'],
-  "9_00AM": [,,'color2'],
-  "10_00AM": [,'color1']
+  'Monday': {
+    '8_00AM': {
+      'color': 'color1',
+      'value': 'This is black'
+    },
+    '9_00AM': {
+      'color': 'color2',
+      'value': 'This is white'
+    }
+  }
 });
 ```
 
