@@ -188,9 +188,10 @@
 }
 .ihc-popup-menu hr {
     font-size: .5em;
-    border-color: #F4F4F4;
-    color: #F4F4F4;
-    background-color; #F4F4F4;
+    border-color: #999999;
+    color: #999999;
+    background-color: #999999;
+    margin: 0;
 }
 .ihc-popup-menu > div > div {
     height: .8em;
