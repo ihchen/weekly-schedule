@@ -23,7 +23,8 @@ var schedule = new IHCSchedule("scheduleHere", {
   colors: {},       // Available colors in any CSS format. Color should be the value.
   onSave: function(valueState, colorState) {
     // Additional actions to take on save. (Can only save if editable: true).
-  }
+  },
+  onEntryClick: null
 });
 ```
 
@@ -91,6 +92,16 @@ IHCSchedule('scheduleHere', {
 ```
 Parameters:
 * state - Object containing information in schedule
+
+---
+
+#### `onEntryClick` option
+A function that overrides the default pop-up menu action when an entry is clicked. Requires `editable` option to be true. 
+
+Parameters:
+* elem - jQuery element representing the entry clicked
+* state - Object containing schedule information
+* colors - Colors object given in options
 
 ---
 
