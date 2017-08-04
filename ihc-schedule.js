@@ -20,6 +20,7 @@ function IHCSchedule(elemID, options) {
     editable: false,
     colors: {},
     onSave: function(state) {},
+    onEntryClick: null
   };
   const DAY_ORDER = [
     'Monday',
@@ -286,79 +287,87 @@ function IHCSchedule(elemID, options) {
     // If editable, set event listeners to edit
     if(options.editable) {
       element.find('div.entry').addClass('editable');
-      element.on('click', 'div.entry', function(e) {
-        if(!poppedMenu) {
-          e.stopPropagation();
 
-          var x = e.pageX;
-          var y = e.pageY;
-          openPopupMenu($(this), x, y);
-        }
-      });
+      if ( options.onEntryClick ) {
+        element.on('click', 'div.entry', function(e) {
+          options.onEntryClick($(this), state, options.colors);
+        });
+      }
+      else {
+        element.on('click', 'div.entry', function(e) {
+          if(!poppedMenu) {
+            e.stopPropagation();
 
-      $('html').on('click', function() {
-        if(poppedMenu) {
-          closePopupMenu();
-        }
-      });
-
-      $('body').on('click', '.ihc-popup-menu > div',function(e) {
-        e.stopPropagation();
-
-        var elem = $("#"+$(this).closest('.ihc-popup-menu').attr('data-id'));
-
-        if($(this).hasClass('edit')) {
-          changeTagName(elem, 'textarea');
-
-          if(!editted) {
-            // Create save button
-            element.find('.corner').html(`<button class="save-btn">Save</button>`);
-            editted = true;
+            var x = e.pageX;
+            var y = e.pageY;
+            openPopupMenu($(this), x, y);
           }
-        }
-        else {
-          var rc = getTimeAndDay(elem);
-          var day = rc[0];
-          var time = rc[1];
-          var color = $(this).attr('class');
-
-          if ( !state.hasOwnProperty(day) ) {
-            state[day] = {};
-          }
-          if ( !state[day].hasOwnProperty(time) ) {
-            state[day][time] = {};
-          }
-          state[day][time]['color'] = color;
-          elem.css('background-color', options.colors[color]);
-        }
-
-        closePopupMenu();
-      });
-
-      element.on('click', '.save-btn', function() {
-        var id, rc, day, time;
-
-        element.find('textarea').each(function() {
-          id = $(this).attr('id');
-          rc = getTimeAndDay($(this));
-          day = rc[0];
-          time = rc[1];
-
-          if ( !state.hasOwnProperty(day) ) {
-            state[day] = {};
-          }
-          if ( !state[day].hasOwnProperty(time) ) {
-            state[day][time] = {};
-          }
-          state[day][time]['value'] = $(this).val();
-          changeTagName($(this), 'div');
         });
 
-        element.find('.save-btn').remove();
-        editted = false;
+        $('html').on('click', function() {
+          if(poppedMenu) {
+            closePopupMenu();
+          }
+        });
 
-        options.onSave(state);
-      });
+        $('body').on('click', '.ihc-popup-menu > div',function(e) {
+          e.stopPropagation();
+
+          var elem = $("#"+$(this).closest('.ihc-popup-menu').attr('data-id'));
+
+          if($(this).hasClass('edit')) {
+            changeTagName(elem, 'textarea');
+
+            if(!editted) {
+              // Create save button
+              element.find('.corner').html(`<button class="save-btn">Save</button>`);
+              editted = true;
+            }
+          }
+          else {
+            var rc = getTimeAndDay(elem);
+            var day = rc[0];
+            var time = rc[1];
+            var color = $(this).attr('class');
+
+            if ( !state.hasOwnProperty(day) ) {
+              state[day] = {};
+            }
+            if ( !state[day].hasOwnProperty(time) ) {
+              state[day][time] = {};
+            }
+            state[day][time]['color'] = color;
+            elem.css('background-color', options.colors[color]);
+          }
+
+          closePopupMenu();
+        });
+
+        element.on('click', '.save-btn', function() {
+          var id, rc, day, time;
+
+          element.find('textarea').each(function() {
+            id = $(this).attr('id');
+            rc = getTimeAndDay($(this));
+            day = rc[0];
+            time = rc[1];
+
+            if ( !state.hasOwnProperty(day) ) {
+              state[day] = {};
+            }
+            if ( !state[day].hasOwnProperty(time) ) {
+              state[day][time] = {};
+            }
+            state[day][time]['value'] = $(this).val();
+            changeTagName($(this), 'div');
+          });
+
+          element.find('.save-btn').remove();
+          editted = false;
+
+          options.onSave(state);
+        });
+      }
     }
   }
 }
